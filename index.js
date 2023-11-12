@@ -12,7 +12,7 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
 // Replace with your MongoDB Atlas connection string
-const mongoURI = 'mongodb+srv://vai:vai@catsdb.qkckr9j.mongodb.net/catsdb?retryWrites=true&w=majority';
+const mongoURI = 'mongodb+srv://vai:<password>@catsdb.qkckr9j.mongodb.net/catsdb?retryWrites=true&w=majority';
 
 // Connect to MongoDB Atlas
 mongoose.connect(mongoURI)
