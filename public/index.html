@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Cat Facts and Breeds</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="breeds.html">Breeds</a>
+        <a href="facts.html">Facts</a>
+    </nav>
+    <h1>Welcome to Cat Facts and Breeds</h1>
+    <div class="container">
+        
+        <div id="randomBreed">
+            <!-- Random breed will be displayed here -->
+        </div>
+        <div id="randomFact">
+            <!-- Random fact will be displayed here -->
+        </div>
+    </div>
+
+    <script>
+        function fetchRandomBreed() {
+            fetch('/breeds') // Assuming this endpoint returns an array of breeds
+                .then(response => response.json())
+                .then(breeds => {
+                    if (breeds.length > 0) {
+                        const randomIndex = Math.floor(Math.random() * breeds.length);
+                        const randomBreed = breeds[randomIndex];
+                        const breedDiv = document.getElementById('randomBreed');
+                        breedDiv.innerHTML = `
+                            <h2>Random Breed</h2>
+                            <p><strong>Breed:</strong> ${randomBreed.breed}</p>
+                            <p><strong>Country:</strong> ${randomBreed.country}</p>
+                            <p><strong>Coat:</strong> ${randomBreed.coat}</p>
+                            <p><strong>Pattern:</strong> ${randomBreed.pattern}</p>
+                            <img src="${randomBreed.image}" alt="Image of ${randomBreed.breed}" style="max-width: 100%; height: auto;">
+                        `;
+                    }
+                })
+                .catch(error => console.error('Error fetching random breed:', error));
+        }
+    
+        function fetchRandomFact() {
+            fetch('/facts') // Assuming this endpoint returns an array of facts
+                .then(response => response.json())
+                .then(facts => {
+                    if (facts.length > 0) {
+                        const randomIndex = Math.floor(Math.random() * facts.length);
+                        const randomFact = facts[randomIndex];
+                        const factDiv = document.getElementById('randomFact');
+                        factDiv.innerHTML = `
+                            <h2>Random Fact</h2>
+                            <p>${randomFact.fact}</p>
+                        `;
+                    }
+                })
+                .catch(error => console.error('Error fetching random fact:', error));
+        }
+    
+        // Call these functions when the page loads
+        fetchRandomBreed();
+        fetchRandomFact();
+    </script>
+
+</body>
+</html>

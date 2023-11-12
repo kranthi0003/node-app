@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breed Details - Cat Facts and Breeds</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="breeds.html">Breeds</a>
+        <a href="facts.html">Facts</a>
+    </nav>
+
+    <div class="container">
+        <div id="breedDetail" class="breed-container">
+            <!-- Image and breed information will be inserted here by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Extract breedId from URL
+        const params = new URLSearchParams(window.location.search);
+        const breedId = params.get('breedId');
+
+        // Fetch and display the breed details
+        fetch(`/breeds/${breedId}`)
+            .then(response => response.json())
+            .then(breed => {
+                const breedDetail = document.getElementById('breedDetail');
+                breedDetail.innerHTML = `
+                    
+                    <div class="breed-info">
+                        <h2>${breed.breed}</h2>
+                        <p><strong>Country:</strong> ${breed.country}</p>
+                        <p><strong>Origin:</strong> ${breed.origin}</p>
+                        <p><strong>Coat:</strong> ${breed.coat}</p>
+                        <p><strong>Pattern:</strong> ${breed.pattern}</p>
+                    </div>
+                `;
+            })
+            .catch(error => {
+                console.error('Error fetching breed details:', error);
+                document.getElementById('breedDetail').innerText = 'Failed to load breed details.';
+            });
+    </script>
+
+    <footer>
+        Vaidehi © 2023
+    </footer>
+</body>
+</html>

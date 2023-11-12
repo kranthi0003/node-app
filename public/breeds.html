@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breeds - Cat Facts and Breeds</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="breeds.html">Breeds</a>
+        <a href="facts.html">Facts</a>
+    </nav>
+
+    <div class="container">
+        <h1>Cat Breeds</h1>
+        <div id="breedsList">
+            <!-- Breeds will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <script>
+        fetch('/breeds')
+            .then(response => response.json())
+            .then(breeds => {
+                const breedsList = document.getElementById('breedsList');
+                breeds.forEach(breed => {
+                    const breedDiv = document.createElement('div');
+                    breedDiv.className = 'breed';
+
+                    // Add a unique query parameter to the image URL to avoid browser caching
+                    const uniqueImageSrc = breed.image + '&unique=' + breed._id;
+
+                    breedDiv.innerHTML = `
+                        <a href="breedDetails.html?breedId=${breed._id}" class="breed-link">
+                            <div class="breed-image-container">
+                                <img src="${uniqueImageSrc}" alt="${breed.breed}" class="breed-image">
+                            </div>
+                            <div class="breed-name">${breed.breed}</div>
+                        </a>
+                    `;
+
+                    breedsList.appendChild(breedDiv);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching breeds:', error);
+                breedsList.innerText = 'Failed to load breeds.';
+            });
+    </script>
+
+    <footer>
+        Vaidehi © 2023
+    </footer>
+</body>
+</html>
